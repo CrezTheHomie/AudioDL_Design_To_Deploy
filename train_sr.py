@@ -32,9 +32,9 @@ def get_data_splits(data_path, test_size=0.1, val_size=.2):
     X_train, X_val, y_train, y_val = train_test_split(
         X, y, test_size=val_size)
     
-    X_train = X_train[..., 1]
-    X_val = X_val[..., 1]
-    X_test = X_test[..., 1]
+    X_train = X_train[..., np.newaxis]
+    X_val = X_val[..., np.newaxis]
+    X_test = X_test[..., np.newaxis]
     
     # return
     return X_train, X_val, X_test, y_train, y_val, y_test
@@ -45,25 +45,25 @@ def build_model(input_shape, my_learning_rate):
     model = keras.Sequential()
 
     # 3 conv layers
-    model.add(keras.layers.Conv3D(filters=64, kernel_size=(3,3), 
+    model.add(keras.layers.Conv2D(filters=64, kernel_size=(3,3), 
         activation="relu", input_shape=input_shape, kernel_regularizer=keras.regularizers.l2(0.001)))
     model.add(keras.layers.MaxPool2D((3, 3), strides=(2, 2), padding='same'))
     model.add(keras.layers.BatchNormalization())
     
     
-    model.add(keras.layers.Conv3D(filters=32, kernel_size=(2, 2),
+    model.add(keras.layers.Conv2D(filters=32, kernel_size=(2, 2),
         activation="relu", kernel_regularizer=keras.regularizers.l2(0.001)))
     model.add(keras.layers.MaxPool2D((3, 3), strides=(2, 2), padding='same'))
     model.add(keras.layers.BatchNormalization())
     
-    model.add(keras.layers.Conv3D(filters=32, kernel_size=(2, 2),
+    model.add(keras.layers.Conv2D(filters=32, kernel_size=(2, 2),
         activation="relu", kernel_regularizer=keras.regularizers.l2(0.001)))
     model.add(keras.layers.MaxPool2D((2, 2), strides=(2, 2), padding='same'))
     model.add(keras.layers.BatchNormalization())
     
     # flatten convs and feed into Dense
     model.add(keras.layers.Flatten())
-    model.add(keras.layers.Dense(64, activation_function="relu"))
+    model.add(keras.layers.Dense(64, activation="relu"))
     model.add(keras.layers.Dropeout(0.3))
 
     # softmax
@@ -83,7 +83,7 @@ def main ():
     X_train, X_val, X_test, y_train, y_val, y_test = get_data_splits(DATA_PATH)
     
     # build CNN
-    input_shape = (X_train.shape[1], X_train.shape[2], X_train.shape[3]) 
+    input_shape = (X_train.shape[1], X_train.shape[2], 1) 
     model = build_model(input_shape, LEARNING_RATE)
 
     # train model
@@ -98,3 +98,6 @@ def main ():
 
     # save model
     model.save(SAVE_MODEL_PATH)
+
+if __name__ == "__main__":
+    main()
