@@ -64,7 +64,7 @@ def build_model(input_shape, my_learning_rate):
     # flatten convs and feed into Dense
     model.add(keras.layers.Flatten())
     model.add(keras.layers.Dense(64, activation="relu"))
-    model.add(keras.layers.Dropeout(0.3))
+    model.add(keras.layers.Dropout(0.3))
 
     # softmax
     model.add(keras.layers.Dense(NUM_OF_KEYWORDS, activation="softmax"))
