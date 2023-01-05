@@ -10,7 +10,7 @@ BATCH_SIZE = 32
 NUM_EPOCHS = 40
 DATA_PATH = "Data\Speech_Commands_Data_Set.json"
 SAVE_MODEL_PATH = "Data\model.h5"
-NUM_OF_KEYWORDS = 10
+NUM_OF_KEYWORDS = 30
 
 def load_dataset(data_path):
 
@@ -47,19 +47,19 @@ def build_model(input_shape, my_learning_rate):
     # 3 conv layers
     model.add(keras.layers.Conv2D(filters=64, kernel_size=(3,3), 
         activation="relu", input_shape=input_shape, kernel_regularizer=keras.regularizers.l2(0.001)))
-    model.add(keras.layers.MaxPool2D((3, 3), strides=(2, 2), padding='same'))
     model.add(keras.layers.BatchNormalization())
+    model.add(keras.layers.MaxPool2D((3, 3), strides=(2, 2), padding='same'))
     
     
     model.add(keras.layers.Conv2D(filters=32, kernel_size=(2, 2),
         activation="relu", kernel_regularizer=keras.regularizers.l2(0.001)))
-    model.add(keras.layers.MaxPool2D((3, 3), strides=(2, 2), padding='same'))
     model.add(keras.layers.BatchNormalization())
+    model.add(keras.layers.MaxPool2D((3, 3), strides=(2, 2), padding='same'))
     
     model.add(keras.layers.Conv2D(filters=32, kernel_size=(2, 2),
         activation="relu", kernel_regularizer=keras.regularizers.l2(0.001)))
+    model.add(keras.layers.BatchNormalization())
     model.add(keras.layers.MaxPool2D((2, 2), strides=(2, 2), padding='same'))
-    model.add(keras.layers.BatchNormalization())
     
     # flatten convs and feed into Dense
     model.add(keras.layers.Flatten())
@@ -71,7 +71,7 @@ def build_model(input_shape, my_learning_rate):
     
     my_optimizer = keras.optimizers.Adam(learning_rate=my_learning_rate)
     model.compile(optimizer=my_optimizer,
-                  loss="categorical_cross_entropy",
+                  loss="sparse_categorical_crossentropy",
                   metrics=["accuracy"])
 
     print(model.summary())
@@ -87,8 +87,8 @@ def main ():
     model = build_model(input_shape, LEARNING_RATE)
 
     # train model
-    model.fit(X_train,y_train, 
-                NUM_EPOCHS=40, 
+    model.fit(X_train, y_train, 
+                epochs=NUM_EPOCHS, 
                 batch_size=BATCH_SIZE,
                 validation_data=(X_val,y_val))
 
