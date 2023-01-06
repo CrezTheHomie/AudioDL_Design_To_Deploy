@@ -1,7 +1,12 @@
-from flask import Flask
+import requests
 
-"""
-server will listen to port 5000
+URL = "http://127.0.0.1:5000/predict"
+TEST_AUDIO_FILE_PATH = "Test\\00f0204f_nohash_0.wav"
 
-client -> POST request -> server -> prediction back to client
-"""
+if __name__ == "__main__":
+    audio_file = open(TEST_AUDIO_FILE_PATH, "rb")
+    values = {"file": (TEST_AUDIO_FILE_PATH, audio_file, "audio/wav")}
+    response = requests.post(url=URL, files=values)
+    data = response.json()
+
+    print(f"Predicted keyword was: {data['keyword']}")
