@@ -53,8 +53,6 @@ def Keyword_Spotting_Service():
 
 if __name__ == "__main__":
 
-    signal, sample_rate = librosa.load("Test\\00f0204f_nohash_0.wav")
-    
     kss = Keyword_Spotting_Service()
     keyword1 = kss.predict("Test\\00f0204f_nohash_0.wav")
     keyword2 = kss.predict("Test\\0ac15fe9_nohash_0.wav")
