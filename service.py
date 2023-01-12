@@ -31,7 +31,10 @@ def classify_file(input_series:bentoml.io.File) -> np.ndarray:
     return keyword_spotting_model.predict(MFCCs)
 
 
-@svc.api(input=NumpyNdarray(), output=NumpyNdarray())
+@svc.api(input=NumpyNdarray(), output=NumpyNdarray(dtype="int64"))
 def classify_MFCCs(input_MFCCs: np.ndarray) -> np.ndarray:
     
-    return keyword_spotting_model.predict(input_MFCCs)
+    predictions = keyword_spotting_model.predict(input_MFCCs)
+    print(f"Predictions are: {predictions}")
+    
+    return predictions

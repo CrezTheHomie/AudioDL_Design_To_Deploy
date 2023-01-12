@@ -34,6 +34,15 @@ def preprocess_file(input_file):
     return MFCCs
 
 if __name__ == "__main__":
+    
+    _mappings = [
+        "bed", "bird", "cat", "dog", "down", "eight",
+        "five", "four", "go", "happy", "house",
+        "left", "marvin", "nine", "no", "off", "on",
+        "one", "right", "seven", "sheila", "six", "stop",
+        "three", "tree", "two", "up", "wow", "yes", "zero"
+    ]
+    
     audio_file = open(TEST_AUDIO_FILE_PATH, "rb")
     values = {"file": (TEST_AUDIO_FILE_PATH, audio_file, "audio/wav")}
     MFCCs = preprocess_file(audio_file)
@@ -43,6 +52,5 @@ if __name__ == "__main__":
 
     response = make_request_to_bento_service(
         service_url=CLASSIFY_MFCCs_URL, input_file=serialized_input_data, header_dict=headers_dict)
-    # data = response.json()
-
-    print(f"Predicted keyword was: {response}")
+    
+    print(f"Response was: {response}")
