@@ -11,7 +11,7 @@ def make_request_to_bento_service(
     response = requests.post(
         service_url,
         data=input_file,
-        headers={"content-type": "application/json"}
+        headers={"content-type": "application/octet-stream"}
     )
     return response.text
 
