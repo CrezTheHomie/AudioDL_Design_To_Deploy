@@ -1,6 +1,7 @@
 import numpy as np
 import bentoml
-from bentoml.io import NumpyNdarray
+from bentoml.io import NumpyNdarray, File
+import librosa
 
 # Run this once to save the model
 # SAVE_MODEL_PATH = "Data\model.h5"
@@ -11,6 +12,17 @@ keyword_spotting_model = bentoml.keras.load_model("keyword_spotting_model")
 
 svc = bentoml.Service("kss", runners=keyword_spotting_model)
 
-@svc.api(input=NumpyNdarray(), output=NumpyNdarray())
-def classify(input_series:np.ndarray) -> np.ndarray:
-    return keyword_spotting_model.predict(input_series)
+@svc.api(input=File(), output=NumpyNdarray())
+def classify(input_series:bentoml.io.File) -> np.ndarray:
+    signal, sr = librosa.load(input_series)
+
+    # ensure consistency of audio file length
+    if len(signal) > 22050:
+        signal = signal[:22050]
+
+    # extract MFCCs
+    MFCCs = librosa.feature.mfcc(
+        y=signal, n_mfcc=13, n_fft=2048, hop_length=512)
+    MFCCs = MFCCs.T
+    MFCCs = MFCCs[np.newaxis, ..., np.newaxis]
+    return keyword_spotting_model.predict(MFCCs)
