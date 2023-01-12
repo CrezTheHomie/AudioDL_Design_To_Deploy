@@ -30,17 +30,8 @@ def classify_file(input_series:bentoml.io.File) -> np.ndarray:
     MFCCs = MFCCs[np.newaxis, ..., np.newaxis]
     return keyword_spotting_model.predict(MFCCs)
 
-@svc.api(input=File(), output=NumpyNdarray())
-def classify_file(input_series: bentoml.io.File) -> np.ndarray:
-    signal, sr = librosa.load(input_series)
 
-    # ensure consistency of audio file length
-    if len(signal) > 22050:
-        signal = signal[:22050]
-
-    # extract MFCCs
-    MFCCs = librosa.feature.mfcc(
-        y=signal, n_mfcc=13, n_fft=2048, hop_length=512)
-    MFCCs = MFCCs.T
-    MFCCs = MFCCs[np.newaxis, ..., np.newaxis]
-    return keyword_spotting_model.predict(MFCCs)
+@svc.api(input=NumpyNdarray(), output=NumpyNdarray())
+def classify_MFCCs(input_MFCCs: np.ndarray) -> np.ndarray:
+    
+    return keyword_spotting_model.predict(input_MFCCs)
