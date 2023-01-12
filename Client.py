@@ -1,7 +1,7 @@
 import requests
 import json
 
-URL = "http://127.0.0.1:3000/predict"
+URL = "http://127.0.0.1:3000/classify"
 TEST_AUDIO_FILE_PATH = "Test\\00f0204f_nohash_0.wav"
 
 
