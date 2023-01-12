@@ -41,7 +41,6 @@ def classify_file(input_series:bentoml.io.File) -> str:
     predicted_label = _MAPPINGS[predicted_index]
     return predicted_label
 
-
 @svc.api(input=NumpyNdarray(), output=NumpyNdarray(dtype="int64"))
 def classify_MFCCs(input_MFCCs: np.ndarray) -> np.ndarray:
     
