@@ -2,8 +2,7 @@ import requests
 
 CLASSIFY_FILE_URL = "http://127.0.0.1:3000/classify_file"
 CLASSIFY_MFCCs_URL = "http://127.0.0.1:3000/classify_MFCCs"
-TEST_AUDIO_FILE_PATH = "Test\\00f0204f_nohash_0.wav"
-RAND_PDF_PATH = "Test\\ml-canvas.pdf"
+TEST_AUDIO_FILE_PATH = "Test\\0ac15fe9_nohash_0.wav"
 
 
 def make_request_to_bento_service(
