@@ -1,6 +1,6 @@
 import numpy as np
 import bentoml
-from bentoml.io import NumpyNdarray, File
+from bentoml.io import NumpyNdarray, File, Text
 import librosa
 
 _MAPPINGS = [
@@ -23,7 +23,7 @@ keyword_spotting_runner = bentoml.keras.get(
 svc = bentoml.Service("keyword_spotting_model",
                       runners=[keyword_spotting_runner])
 
-@svc.api(input=File(), output=str)
+@svc.api(input=File(), output=Text())
 def classify_file(input_series:bentoml.io.File) -> str:
     signal, sr = librosa.load(input_series)
 
