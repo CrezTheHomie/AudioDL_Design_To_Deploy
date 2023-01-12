@@ -9,8 +9,11 @@ import librosa
 #                          keras.models.load_model(SAVE_MODEL_PATH))
 
 keyword_spotting_model = bentoml.keras.load_model("keyword_spotting_model")
+keyword_spotting_runner = bentoml.keras.get(
+    "keyword_spotting_model:v5rxcuesawl5oven").to_runner()
 
-svc = bentoml.Service("kss", runners=keyword_spotting_model)
+svc = bentoml.Service("keyword_spotting_model",
+                      runners=[keyword_spotting_runner])
 
 @svc.api(input=File(), output=NumpyNdarray())
 def classify(input_series:bentoml.io.File) -> np.ndarray:
