@@ -24,7 +24,7 @@ svc = bentoml.Service("keyword_spotting_model",
                       runners=[keyword_spotting_runner])
 
 
-@web_static_content('./static')
+# @web_static_content('./static')
 
 @svc.api(input=File(), output=Text())
 def classify_file(input_series:bentoml.io.File) -> str:
