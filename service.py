@@ -23,6 +23,9 @@ keyword_spotting_runner = bentoml.keras.get(
 svc = bentoml.Service("keyword_spotting_model",
                       runners=[keyword_spotting_runner])
 
+
+@web_static_content('./static')
+
 @svc.api(input=File(), output=Text())
 def classify_file(input_series:bentoml.io.File) -> str:
     signal, sr = librosa.load(input_series)
