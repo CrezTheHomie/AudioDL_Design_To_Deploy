@@ -11,3 +11,4 @@ python:
    - librosa
    - tensorflow
    - sklearn
+   - streamlit

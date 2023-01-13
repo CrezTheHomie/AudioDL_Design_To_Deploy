@@ -31,19 +31,19 @@ def make_request_to_bento_service(
 
 if __name__ == "__main__":
     
-    with open(TEST_AUDIO_FILE_PATH, 'rb') as f:
-        audio_data = f.read()
+    # with open(TEST_AUDIO_FILE_PATH, 'rb') as f:
+    #     audio_data = f.read()
 
-    headers_dict = {
-        'accept': 'application/json',
-        'Content-Type': 'application/octet-stream',
-    }
+    # headers_dict = {
+    #     'accept': 'application/json',
+    #     'Content-Type': 'application/octet-stream',
+    # }
 
-    response = make_request_to_bento_service(
-        service_url=CLASSIFY_FILE_URL, input_file=audio_data, header_dict=headers_dict)
-    # files_list = ["Test\\00f0204f_nohash_0.wav",
-    #               "Test\\0ac15fe9_nohash_0.wav"]
-    # response = make_multipart_request_to_bento_service(
-    #     CLASSIFY_FILE_URL, files_list)
+    # response = make_request_to_bento_service(
+    #     service_url=CLASSIFY_FILE_URL, input_file=audio_data, header_dict=headers_dict)
+    files_list = ["Test\\00f0204f_nohash_0.wav",
+                  "Test\\0ac15fe9_nohash_0.wav"]
+    response = make_multipart_request_to_bento_service(
+        CLASSIFY_FILE_URL, files_list)
 
     print(f"Response was: {response}")
